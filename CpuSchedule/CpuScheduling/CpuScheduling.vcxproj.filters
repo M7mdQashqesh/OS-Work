@@ -29,8 +29,12 @@
     <ClInclude Include="Algorithms.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="SRTF.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="processes.txt" />
+    <Text Include="processesForSRTF.txt" />
   </ItemGroup>
 </Project>

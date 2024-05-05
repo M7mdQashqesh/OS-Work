@@ -17,7 +17,7 @@ int currentTime;
 int numberOfProcesses;
 double cpuUtilization = 0;
 
-//function to read the data from file
+// Function to read the data from file
 void readFile() {
 
 	ifstream inputFile;
@@ -44,7 +44,7 @@ void readFile() {
 	inputFile.close();
 }
 
-// gant chart for FCFS , SJF
+// Gant chart for FCFS , SJF
 void GanttChart() {
 
 	currentTime = 0;
@@ -54,7 +54,7 @@ void GanttChart() {
 	cout << "================================================================" << endl;
 	for (int i = 0; i < numberOfProcesses; i++) {
 		cout << "(" << currentTime << ")|==P" << process[i].id << "==|";
-		//to calculate current time after each process finished 
+		// To calculate current time after each process finished 
 		currentTime += process[i].BT + cs;
 	}
 	currentTime = currentTime - cs;
@@ -63,7 +63,7 @@ void GanttChart() {
 }
 
 void findWaitingTime(Process proc[], int n, int wt[]) {
-	// waiting time for first process is 0
+	// Waiting time for first process is 0
 	wt[0] = 0;
 
 	// calculat waiting time
@@ -71,27 +71,27 @@ void findWaitingTime(Process proc[], int n, int wt[]) {
 		wt[i] = proc[i - 1].BT + wt[i - 1] + proc[1].cs;
 }
 
-// calculate turn around time
+// Calculate turn around time
 void findTurnAroundTime(Process proc[], int n, int wt[], int tat[]) {
-	// calculat turnaround time 
+	// Calculat turnaround time 
 	for (int i = 0; i < n; i++)
 		tat[i] = proc[i].BT + wt[i] + proc[1].cs;
 }
 
-//Function to calculate average time
+// Function to calculate average time
 void findavgTime(Process proc[], int n) {
 	int wt[10], tat[10], totalWT = 0, totalTAT = 0;
 
-	// waiting time for all processes
+	// Waiting time for all processes
 	findWaitingTime(proc, n, wt);
 
-	// turn around time for all processes
+	// Turn around time for all processes
 	findTurnAroundTime(proc, n, wt, tat);
 
-	//Display processes with all info
+	// Display processes with all info
 	cout << "\nProcesses  " << " Burst time  " << " Waiting time  " << " Turn around time\n";
 
-	// total WT and total TAT
+	// Total WT and total TAT
 
 	double sum = 0;
 	for (int i = 0; i < numberOfProcesses; i++)
@@ -112,10 +112,9 @@ void findavgTime(Process proc[], int n) {
 	cout << "cpu utlization = " << (sum * 1.0 / (sum + 12)) * 100 << "%" << endl;
 }
 
-
 void sorty() {
 	bool swapped;
-	do { //Rearrange processes upwards depending on arrival time
+	do { // Rearrange processes upwards depending on arrival time
 		swapped = false;
 		for (int i = 0; i < numberOfProcesses - 1; i++) {
 			if (process[i].AT > process[i + 1].AT) {
@@ -126,15 +125,16 @@ void sorty() {
 	} while (swapped);
 }
 
-//function to calculate & display the Shared Optimization Criteria in SJF & FCFS
+
+// Function to calculate & display the Shared Optimization Criteria in SJF & FCFS
 void getInfo() {
-	GanttChart(); //call GanttChat function to display it
-	totalBurstTime = 0; totalWT = 0; totalTAT = 0; //reset totals
+	GanttChart(); // Call GanttChat function to display it
+	totalBurstTime = 0; totalWT = 0; totalTAT = 0; // Reset totals
 	process[0].finishTime = process[0].BT;
 	process[0].wt = 0;
 	process[0].TAT_time = process[0].finishTime - process[0].AT;
 
-	for (int i = 1; i < numberOfProcesses; i++) { //to calculate waiting time & turnaround time & finish time for each process 
+	for (int i = 1; i < numberOfProcesses; i++) { // To calculate waiting time & turnaround time & finish time for each process 
 		totalBurstTime += process[i - 1].BT;
 		process[i].finishTime = process[i - 1].finishTime + cs + process[i].BT;
 		process[i].wt = process[i - 1].finishTime + cs - process[i].AT;
@@ -143,14 +143,14 @@ void getInfo() {
 
 	process[4].finishTime -= cs;
 
-	for (int i = 0; i < numberOfProcesses; i++) { //to calculate the totals
+	for (int i = 0; i < numberOfProcesses; i++) { // To calculate the totals
 		totalWT += process[i].wt;
 		totalTAT += process[i].TAT_time;
 	}
 
 	totalBurstTime += process[numberOfProcesses - 1].BT;
-	cpuUtilization = float(totalBurstTime * 100.0 / currentTime); //to calculate cpu utilization
-	//To display Information for each process in table
+	cpuUtilization = float(totalBurstTime * 100.0 / currentTime); // To calculate cpu utilization
+	// To display Information for each process in table
 	cout << "Process\t|    TAT Time   | Waiting Time\t| finish Time";
 	cout << "\n";
 
